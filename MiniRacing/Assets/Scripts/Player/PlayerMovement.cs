@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private float maxTorque = 10000f;
 
     [SerializeField]
-    private float stopTolerance = 1f; 
+    private float stoppingSpeedThreshold = 1f; 
 
     private float torque;
     private float steer;
@@ -44,11 +44,13 @@ public class PlayerMovement : MonoBehaviour
     private DriveState previousDriveState = DriveState.Stopped;
 
     private Rigidbody rb;
+    private Vector3 centerOfMass;
+    private Vector3 centerOfMassOffset = new(0.3f, 0, 0);
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = transform.position; //adjuct the center of mass so the car doesn't tip over when turning
+        centerOfMass = rb.centerOfMass;
     }
 
     void Update()
@@ -99,10 +101,36 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void Stop()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        foreach (Wheel wheel in wheels)
+        {
+            wheel.WheelCollider.motorTorque = 0f;
+            wheel.WheelCollider.brakeTorque = 1000f;
+        }
+    }
+
+    private void Steer()
+    {
+        foreach (Wheel wheel in wheels)
+        {
+            if(wheel.axle == Axle.Front)
+            {
+                wheel.WheelCollider.steerAngle = steer * steeringAngle;
+                wheel.gameobject.transform.localRotation = Quaternion.Euler(0, steer * steeringAngle, 0);
+            }           
+        }
+
+        AdjustCenterOfMassBased();
+    }
+    
     private void ChangeDriveState()
     {
         float input = Input.GetAxis("Vertical");
-        bool isNearlyStopped = rb.velocity.magnitude < stopTolerance;
+        bool isNearlyStopped = rb.velocity.magnitude < stoppingSpeedThreshold;
 
         previousDriveState = currentDriveState;
 
@@ -156,28 +184,20 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log($"Current Drive State: {currentDriveState}");
     }
-    
-    private void Stop()
-    {
-        rb.velocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
 
-        foreach (Wheel wheel in wheels)
+    private void AdjustCenterOfMassBased()
+    {
+        if (steer < 0) // Turning left
         {
-            wheel.WheelCollider.motorTorque = 0f;
-            wheel.WheelCollider.brakeTorque = 1000f;
+            rb.centerOfMass = centerOfMass - centerOfMassOffset;
         }
-    }
-
-    private void Steer()
-    {
-        foreach (Wheel wheel in wheels)
+        else if (steer > 0) // Turning right
         {
-            if(wheel.axle == Axle.Front)
-            {
-                wheel.WheelCollider.steerAngle = steer * steeringAngle;
-                wheel.gameobject.transform.localRotation = Quaternion.Euler(0, steer * steeringAngle, 0);
-            }           
+            rb.centerOfMass = centerOfMass + centerOfMassOffset;
+        }
+        else // No steering
+        {
+            rb.centerOfMass = centerOfMass;
         }
     }
 }
