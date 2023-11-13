@@ -2,55 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
-{
-    public enum Axle
-    {
-        Front,
-        Rear
-    }
-
-    [System.Serializable]
-    public struct Wheel
-    {
-        public GameObject gameobject;
-        public WheelCollider WheelCollider;
-        public Axle axle;
-    }
-
-    [SerializeField]
-    private Wheel[] wheels = new Wheel[4];
-
-    [SerializeField]
-    private float maxTorque = 10000f;
-
+public class PlayerMovement : CarMovement
+{    
     [SerializeField]
     private float stoppingSpeedThreshold = 1f; 
+    
+    private DriveState previousDriveState;
 
-    private float torque;
-    private float steer;
-
-    private readonly float steeringAngle = 30.0f;
-
-    private enum DriveState
+    new void Start()
     {
-        Forward,
-        Braking,
-        Reversing,
-        Stopped
-    }
-
-    private DriveState currentDriveState = DriveState.Stopped;
-    private DriveState previousDriveState = DriveState.Stopped;
-
-    private Rigidbody rb;
-    private Vector3 centerOfMass;
-    private Vector3 centerOfMassOffset = new(0.3f, 0, 0);
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        centerOfMass = rb.centerOfMass;
+        base.Start();
+        previousDriveState = currentDriveState;
     }
 
     void Update()
@@ -83,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         steer = Input.GetAxis("Horizontal");
     }
 
-    private void Drive()
+    protected override void Drive()
     {
         foreach (Wheel wheel in wheels)
         {
@@ -92,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Brake()
+    protected override void Brake()
     {
         foreach (Wheel wheel in wheels)
         {
@@ -101,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Stop()
+    protected override void Stop()
     {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
@@ -113,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Steer()
+    protected override void Steer()
     {
         foreach (Wheel wheel in wheels)
         {
@@ -183,21 +145,5 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Debug.Log($"Current Drive State: {currentDriveState}");
-    }
-
-    private void AdjustCenterOfMassBased()
-    {
-        if (steer < 0) // Turning left
-        {
-            rb.centerOfMass = centerOfMass - centerOfMassOffset;
-        }
-        else if (steer > 0) // Turning right
-        {
-            rb.centerOfMass = centerOfMass + centerOfMassOffset;
-        }
-        else // No steering
-        {
-            rb.centerOfMass = centerOfMass;
-        }
     }
 }
