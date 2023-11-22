@@ -29,6 +29,8 @@ public class WaypointManager : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
+            MeshRenderer renderer = child.GetComponent<MeshRenderer>();
+            renderer.enabled = false;
             AddWaypoint(child.position);
         }
     }
@@ -36,5 +38,16 @@ public class WaypointManager : MonoBehaviour
     public List<Waypoint> GetWaypoints()
     {
         return waypoints;
+    }
+
+    private void OnDrawGizmos()
+    {
+        //draw the waypoints
+        foreach (Waypoint waypoint in waypoints)
+        {
+            Gizmos.color = Color.gray;
+            float size = 1f;
+            Gizmos.DrawCube(waypoint.Position, new Vector3(size, size, size));
+        }
     }
 }
