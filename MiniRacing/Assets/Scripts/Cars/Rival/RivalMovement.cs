@@ -11,7 +11,7 @@ public class RivalMovement : CarMovement
     private float distanceToWaypoint;
 
     [SerializeField]
-    float topSpeed = 8f;
+    float topSpeed = 10f;
 
     // Start is called before the first frame update
     new void Start()
@@ -36,7 +36,8 @@ public class RivalMovement : CarMovement
 
     protected override void Drive()
     {
-        if (rb.velocity.magnitude > topSpeed) { return; }
+        Debug.Log(rb.velocity.magnitude);
+        if (rb.velocity.magnitude > topSpeed) { Brake();  return; }
 
         foreach (Wheel wheel in wheels)
         {
