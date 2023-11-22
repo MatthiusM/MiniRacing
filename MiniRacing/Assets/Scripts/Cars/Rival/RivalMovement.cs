@@ -11,51 +11,33 @@ public class RivalMovement : CarMovement
     private float distanceToWaypoint;
 
     [SerializeField]
-    private float targetSpeed = 10f;
+    float topSpeed = 8f;
 
     // Start is called before the first frame update
     new void Start()
     {
         base.Start();
         waypoints = WaypointManager.Instance.GetWaypoints();
+        torque = maxTorque;
         currentDriveState = DriveState.Forward;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (waypoints.Count == 0) return;
-
-        Waypoint targetWaypoint = waypoints[currentWaypointIndex];
-        Vector3 relativeVector = transform.InverseTransformPoint(targetWaypoint.Position);
-        steer = (relativeVector.x / relativeVector.magnitude) * steeringAngle;
-
-        distanceToWaypoint = Vector3.Distance(transform.position, targetWaypoint.Position);
-        ChangeDriveState();
-        if (distanceToWaypoint < distanceToWaypointThreshold) // Threshold for reaching the waypoint
-        {
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
-            Debug.Log($"currentWaypointIndex: {currentWaypointIndex} / {waypoints.Count}");
-        }        
+        UpdateWaypoint();
     }
 
     private void FixedUpdate()
     {
         Steer();
-        switch (currentDriveState)
-        {
-            case DriveState.Forward:
-                Drive();
-                StartCoroutine(IncreaseTorqueOverTime(0.5f));
-                break;
-            case DriveState.Braking:
-                Brake();
-                break;
-        }
+        Drive();
     }
 
     protected override void Drive()
     {
+        if (rb.velocity.magnitude > topSpeed) { return; }
+
         foreach (Wheel wheel in wheels)
         {
             wheel.WheelCollider.brakeTorque = 0f;
@@ -97,32 +79,17 @@ public class RivalMovement : CarMovement
         AdjustCenterOfMassBased();
     }
 
-
-    private void ChangeDriveState()
+    private void UpdateWaypoint()
     {
-        if (distanceToWaypoint < distanceToWaypointThreshold && currentDriveState != DriveState.Braking && rb.velocity.magnitude > targetSpeed)
-        {
-            torque = 0;
-            currentDriveState = DriveState.Braking;
-        }
-        else if (rb.velocity.magnitude <= targetSpeed && currentDriveState == DriveState.Braking)
-        {
-            torque = 0;
-            currentDriveState = DriveState.Forward;
-        }
+        Waypoint targetWaypoint = waypoints[currentWaypointIndex];
+        Vector3 directionToWaypoint = transform.InverseTransformPoint(targetWaypoint.Position);
+        steer = (directionToWaypoint.x / directionToWaypoint.magnitude) * steeringAngle;
 
-        Debug.Log($"currentDriveState: {currentDriveState}");
-    }
-
-    private IEnumerator IncreaseTorqueOverTime(float duration)
-    {
-        float startTime = Time.time;
-        while (Time.time - startTime < duration)
+        distanceToWaypoint = Vector3.Distance(transform.position, targetWaypoint.Position);
+        if (distanceToWaypoint < distanceToWaypointThreshold) // Threshold for reaching the waypoint
         {
-            float progress = (Time.time - startTime) / duration;
-            torque = Mathf.Lerp(0, maxTorque, progress);
-            yield return null;
+            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+            Debug.Log($"currentWaypointIndex: {currentWaypointIndex} / {waypoints.Count}");
         }
-        torque = maxTorque;
     }
 }
