@@ -2,13 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RivalMovement : CarMovement
+public class RivalCar : Car
 {
-    private List<Waypoint> waypoints = new();
-    private int currentWaypointIndex = 0;
-
-    private readonly float distanceToWaypointThreshold = 10f;
-    private float distanceToWaypoint;
+    private RivalPathfinding pathfinding;
 
     [SerializeField]
     float topSpeed = 10f;
@@ -17,7 +13,7 @@ public class RivalMovement : CarMovement
     new void Start()
     {
         base.Start();
-        waypoints = WaypointManager.Instance.GetWaypoints();
+        pathfinding = new RivalPathfinding(WaypointManager.Instance.GetWaypoints());
         torque = maxTorque;
         currentDriveState = DriveState.Forward;
     }
@@ -36,8 +32,7 @@ public class RivalMovement : CarMovement
 
     protected override void Drive()
     {
-        Debug.Log(rb.velocity.magnitude);
-        if (rb.velocity.magnitude > topSpeed) { Brake();  return; }
+        if (rb.velocity.magnitude > topSpeed) { Brake(); return; }
 
         foreach (Wheel wheel in wheels)
         {
@@ -82,15 +77,12 @@ public class RivalMovement : CarMovement
 
     private void UpdateWaypoint()
     {
-        Waypoint targetWaypoint = waypoints[currentWaypointIndex];
+        pathfinding.UpdateWaypoint(transform.position);
+
+        Waypoint targetWaypoint = pathfinding.GetCurrentWaypoint();
         Vector3 directionToWaypoint = transform.InverseTransformPoint(targetWaypoint.Position);
         steer = (directionToWaypoint.x / directionToWaypoint.magnitude) * steeringAngle;
 
-        distanceToWaypoint = Vector3.Distance(transform.position, targetWaypoint.Position);
-        if (distanceToWaypoint < distanceToWaypointThreshold) // Threshold for reaching the waypoint
-        {
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
-            Debug.Log($"currentWaypointIndex: {currentWaypointIndex} / {waypoints.Count}");
-        }
+        Debug.Log($"Next waypoint: {pathfinding.CurrentWaypointIndex}");
     }
 }

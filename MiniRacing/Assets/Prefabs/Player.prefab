@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 6127613247571004356}
   - component: {fileID: 4434466910271441685}
   - component: {fileID: 2638869037130249771}
-  - component: {fileID: 4069285425829058988}
+  - component: {fileID: 3042177990841571209}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -530,7 +530,7 @@ Transform:
   - {fileID: 5738834539092322592}
   - {fileID: 1925690399715614795}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3453329487492016231
 MeshFilter:
@@ -631,7 +631,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: c82e8b393710d904280ac4aa07d40cd4, type: 3}
---- !u!114 &4069285425829058988
+--- !u!114 &3042177990841571209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -640,21 +640,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 7514760025077282373}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dad161bbef05750448e9eabfaa1d87c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 95d8373a5eccd50488815dd572080b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wheels:
-  - gameobject: {fileID: 1015124680512902148}
-    WheelCollider: {fileID: 3292208432496458062}
+  - gameobject: {fileID: 0}
+    WheelCollider: {fileID: 0}
     axle: 0
-  - gameobject: {fileID: 6962562642224988594}
-    WheelCollider: {fileID: 4033553448214073208}
+  - gameobject: {fileID: 0}
+    WheelCollider: {fileID: 0}
     axle: 0
-  - gameobject: {fileID: 5957895067800305888}
-    WheelCollider: {fileID: 6411162498929916654}
-    axle: 1
-  - gameobject: {fileID: 6432101581115097367}
-    WheelCollider: {fileID: 4436556896112359294}
-    axle: 1
+  - gameobject: {fileID: 0}
+    WheelCollider: {fileID: 0}
+    axle: 0
+  - gameobject: {fileID: 0}
+    WheelCollider: {fileID: 0}
+    axle: 0
   maxTorque: 10000
   stoppingSpeedThreshold: 1

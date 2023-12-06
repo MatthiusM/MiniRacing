@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CarMovement : MonoBehaviour
+public abstract class Car : MonoBehaviour
 {
     [SerializeField]
     protected Wheel[] wheels = new Wheel[4];
@@ -46,6 +46,14 @@ public abstract class CarMovement : MonoBehaviour
         {
             rb.centerOfMass = centerOfMass;
         }
+    }
+    protected float GetMPH()
+    {
+        float velocityMS = rb.velocity.magnitude;
+
+        float mph = velocityMS * 2.23694f;
+
+        return mph;
     }
 
 }

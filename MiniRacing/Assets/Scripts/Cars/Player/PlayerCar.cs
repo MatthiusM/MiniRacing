@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : CarMovement
-{    
+public class PlayerCar : Car
+{
     [SerializeField]
-    private float stoppingSpeedThreshold = 1f; 
-    
+    private float stoppingSpeedThreshold = 1f;
+
     private DriveState previousDriveState;
 
     new void Start()
@@ -79,16 +79,16 @@ public class PlayerMovement : CarMovement
     {
         foreach (Wheel wheel in wheels)
         {
-            if(wheel.axle == Axle.Front)
+            if (wheel.axle == Axle.Front)
             {
                 wheel.WheelCollider.steerAngle = steer * steeringAngle;
                 wheel.gameobject.transform.localRotation = Quaternion.Euler(0, steer * steeringAngle, 0);
-            }           
+            }
         }
 
         AdjustCenterOfMassBased();
     }
-    
+
     private void ChangeDriveState()
     {
         float input = Input.GetAxis("Vertical");
