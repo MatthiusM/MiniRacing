@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class RivalPathfinding : MonoBehaviour
 {
-    public static UnityEvent<Waypoint> updateWaypoint = new();
+    public UnityEvent<Waypoint> updateWaypoint = new();
 
     [SerializeField]
     private List<Waypoint> waypoints;

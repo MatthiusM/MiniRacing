@@ -11,10 +11,16 @@ public class RivalCar : Car
 
     private Collider obstacle = null;
 
+    private RivalDetection rivalDetection;
+    private RivalPathfinding rivalPathfinding;
+
     private void Awake()
     {
-        RivalPathfinding.updateWaypoint.AddListener(SetWaypoint);
-        RivalDetection.closestObstacle.AddListener(SetObstacle);
+        rivalDetection = GetComponent<RivalDetection>();
+        rivalPathfinding = GetComponent<RivalPathfinding>();
+
+        rivalPathfinding.updateWaypoint.AddListener(SetWaypoint);
+        rivalDetection.closestObstacle.AddListener(SetObstacle);
     }
 
     // Start is called before the first frame update

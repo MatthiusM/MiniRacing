@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class RivalDetection : MonoBehaviour
 {
-    public static UnityEvent<Collider> closestObstacle = new();
+    public UnityEvent<Collider> closestObstacle = new();
 
     [SerializeField]
     private float detectionRange = 3.5f;
