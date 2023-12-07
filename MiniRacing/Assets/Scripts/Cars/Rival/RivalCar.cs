@@ -4,24 +4,31 @@ using UnityEngine;
 
 public class RivalCar : Car
 {
-    private RivalPathfinding pathfinding;
-
     [SerializeField]
-    float topSpeed = 10f;
+    private float topSpeed = 10f;
+
+    private Waypoint currentWaypoint = null;
+
+    private Collider obstacle = null;
+
+    private void Awake()
+    {
+        RivalPathfinding.updateWaypoint.AddListener(SetWaypoint);
+        RivalDetection.closestObstacle.AddListener(SetObstacle);
+    }
 
     // Start is called before the first frame update
     new void Start()
     {
         base.Start();
-        pathfinding = new RivalPathfinding(WaypointManager.Instance.GetWaypoints());
         torque = maxTorque;
-        currentDriveState = DriveState.Forward;
+        currentDriveState = DriveState.Forward;       
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateWaypoint();
+        SetSteer();
     }
 
     private void FixedUpdate()
@@ -32,6 +39,12 @@ public class RivalCar : Car
 
     protected override void Drive()
     {
+        if (currentWaypoint == null)
+        {
+            Stop();
+            return;
+        }
+
         if (rb.velocity.magnitude > topSpeed) { Brake(); return; }
 
         foreach (Wheel wheel in wheels)
@@ -64,10 +77,12 @@ public class RivalCar : Car
 
     protected override void Steer()
     {
+        if(float.IsNaN(steer)) { return; }
+
         foreach (Wheel wheel in wheels)
         {
             if (wheel.axle == Axle.Front)
-            {
+            {                
                 wheel.WheelCollider.steerAngle = steer;
                 wheel.gameobject.transform.localRotation = Quaternion.Euler(0, steer, 0);
             }
@@ -75,14 +90,36 @@ public class RivalCar : Car
         AdjustCenterOfMassBased();
     }
 
-    private void UpdateWaypoint()
+    private void SetSteer()
     {
-        pathfinding.UpdateWaypoint(transform.position);
+        float steerValue = 0f;
 
-        Waypoint targetWaypoint = pathfinding.GetCurrentWaypoint();
-        Vector3 directionToWaypoint = transform.InverseTransformPoint(targetWaypoint.Position);
-        steer = (directionToWaypoint.x / directionToWaypoint.magnitude) * steeringAngle;
+        // Steering towards waypoint
+        if (currentWaypoint != null)
+        {
+            Vector3 directionToWaypoint = transform.InverseTransformPoint(currentWaypoint.Position);
+            steerValue += (directionToWaypoint.x / directionToWaypoint.magnitude) * steeringAngle;
+        }
 
-        Debug.Log($"Next waypoint: {pathfinding.CurrentWaypointIndex}");
+        // Obstacle avoidance
+        if (obstacle != null)
+        {
+            Vector3 directionToObstacle = transform.InverseTransformPoint(obstacle.transform.position);
+            
+            // Steer in the opposite direction of the obstacle
+            steerValue -= (directionToObstacle.x / directionToObstacle.magnitude) * steeringAngle;
+        }
+
+        steer = Mathf.Clamp(steerValue, -steeringAngle, steeringAngle);
+    }
+
+    private void SetWaypoint(Waypoint waypoint)
+    {
+        currentWaypoint = waypoint;
+    }
+    
+    private void SetObstacle(Collider obstacle)
+    {
+        this.obstacle = obstacle;
     }
 }

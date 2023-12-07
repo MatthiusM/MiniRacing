@@ -1,39 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class RivalPathfinding
+public class RivalPathfinding : MonoBehaviour
 {
-    private readonly List<Waypoint> waypoints;
+    public static UnityEvent<Waypoint> updateWaypoint = new();
+
+    [SerializeField]
+    private List<Waypoint> waypoints;
     private int currentWaypointIndex = 0;
     private readonly float distanceToWaypointThreshold = 10f;
 
-    public RivalPathfinding(List<Waypoint> waypoints)
+    void Start()
     {
-        this.waypoints = waypoints;
+        waypoints = WaypointManager.Instance.GetWaypoints();
+        
+        //set the first waypoint
+        updateWaypoint.Invoke(GetCurrentWaypoint());
     }
 
-    public int CurrentWaypointIndex
+    private void Update()
     {
-        get { return currentWaypointIndex; }
+        UpdateWaypoint(transform.position);
     }
 
-    public float DistanceToWaypointThreshold
-    {
-        get { return distanceToWaypointThreshold; }
-    }
-    
-    public Waypoint GetCurrentWaypoint()
+    private Waypoint GetCurrentWaypoint()
     {
         return waypoints[currentWaypointIndex];
     }
 
-    public void UpdateWaypoint(Vector3 currentPosition)
+    private void UpdateWaypoint(Vector3 currentPosition)
     {
-        Waypoint targetWaypoint = waypoints[currentWaypointIndex];
-        if (Vector3.Distance(currentPosition, targetWaypoint.Position) < distanceToWaypointThreshold)
+        Vector3 targetWaypoint = waypoints[currentWaypointIndex].Position;
+        if (Vector3.Distance(currentPosition, targetWaypoint) < distanceToWaypointThreshold)
         {
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+            updateWaypoint.Invoke(GetCurrentWaypoint());
         }
     }
 }
