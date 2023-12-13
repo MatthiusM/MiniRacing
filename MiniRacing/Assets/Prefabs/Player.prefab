@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1769407143429395543}
   - component: {fileID: 4564686513683239866}
   - component: {fileID: 3292208432496458062}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SR_Veh_DerbyCar_Wheel_FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 6022255706360470870}
   - component: {fileID: 2550436273616243915}
   - component: {fileID: 6411162498929916654}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SR_Veh_DerbyCar_Wheel_RL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 4035077196702406188}
   - component: {fileID: 3739266423905546811}
   - component: {fileID: 4436556896112359294}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SR_Veh_DerbyCar_Wheel_RR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -381,7 +381,7 @@ GameObject:
   - component: {fileID: 8746216825621438586}
   - component: {fileID: 6275751107037247024}
   - component: {fileID: 4033553448214073208}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SR_Veh_DerbyCar_Wheel_FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -506,7 +506,7 @@ GameObject:
   - component: {fileID: 4434466910271441685}
   - component: {fileID: 2638869037130249771}
   - component: {fileID: 3042177990841571209}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -644,17 +644,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheels:
-  - gameobject: {fileID: 0}
-    WheelCollider: {fileID: 0}
+  - gameobject: {fileID: 1015124680512902148}
+    WheelCollider: {fileID: 3292208432496458062}
     axle: 0
-  - gameobject: {fileID: 0}
-    WheelCollider: {fileID: 0}
+  - gameobject: {fileID: 6962562642224988594}
+    WheelCollider: {fileID: 4033553448214073208}
     axle: 0
-  - gameobject: {fileID: 0}
-    WheelCollider: {fileID: 0}
-    axle: 0
-  - gameobject: {fileID: 0}
-    WheelCollider: {fileID: 0}
-    axle: 0
+  - gameobject: {fileID: 5957895067800305888}
+    WheelCollider: {fileID: 6411162498929916654}
+    axle: 1
+  - gameobject: {fileID: 6432101581115097367}
+    WheelCollider: {fileID: 4436556896112359294}
+    axle: 1
   maxTorque: 10000
   stoppingSpeedThreshold: 1
