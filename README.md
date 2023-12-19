@@ -42,4 +42,13 @@ Overview of what happened each week
 - www.youtube.com. (n.d.). Avoidance in how to create an AI Bot Race Car Controller in Unity tutorial Part 2. [online] Available at: https://www.youtube.com/watch?v=5SJ6AAI6Wcs&t=445s
 - www.youtube.com. (n.d.). How to use Cameras in Unity: Cinemachine Virtual Cameras Explained. [online] Available at: https://www.youtube.com/watch?v=asruvbmUyw8
 
-‌
+# Week 13
+
+1. HUD
+2. Timer
+
+## References
+
+- www.youtube.com. (n.d.). Making UI That Looks Good In Unity using Color Palettes, Layout Components and a Blur Panel. [online] Available at: https://www.youtube.com/watch?v=HwdweCX5aMI.
+- Unity Forum. (n.d.). Timer with string format. [online] Available at: https://forum.unity.com/threads/timer-with-string-format.1276847/ [Accessed 19 Dec. 2023].
+  ‌
