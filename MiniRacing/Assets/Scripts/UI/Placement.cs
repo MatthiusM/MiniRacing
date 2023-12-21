@@ -29,6 +29,8 @@ public class Placement : MonoBehaviour
 
     private void Update()
     {
+        if(GameManager.Instance.CurrentState != GameState.Playing) { return; }
+
         SortCarsByPlacement();
         placementText.text = $"{GetCarIndexByInstanceID(player.GetInstanceID()) + 1} / {cars.Count}";
     }

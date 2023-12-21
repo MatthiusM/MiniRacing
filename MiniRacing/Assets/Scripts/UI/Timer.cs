@@ -13,11 +13,13 @@ public class Timer : MonoBehaviour
     void Start()
     {
         timerText = GetComponent<TextMeshProUGUI>();
-        startTime = Time.time;
+        GameManager.Instance.AddListenerOnInitialise(StartTimer);
     }
 
     void Update()
     {
+        if (GameManager.Instance.CurrentState != GameState.Playing) { return; }
+
         if (timerActive)
         {
             float t = Time.time - startTime;
@@ -33,5 +35,10 @@ public class Timer : MonoBehaviour
                 timerActive = false;
             }
         }
+    }
+
+    void StartTimer()
+    {
+        startTime = Time.time;
     }
 }
