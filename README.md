@@ -51,4 +51,11 @@ Overview of what happened each week
 
 - www.youtube.com. (n.d.). Making UI That Looks Good In Unity using Color Palettes, Layout Components and a Blur Panel. [online] Available at: https://www.youtube.com/watch?v=HwdweCX5aMI.
 - Unity Forum. (n.d.). Timer with string format. [online] Available at: https://forum.unity.com/threads/timer-with-string-format.1276847/ [Accessed 19 Dec. 2023].
-  ‌
+
+# Week 14
+
+1. Placement UI
+
+## References
+
+- www.youtube.com. (n.d.). Tags - Unity Official Tutorials. [online] Available at: https://www.youtube.com/watch?v=EA54-vfLkUI.

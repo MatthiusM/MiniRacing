@@ -12,14 +12,13 @@ public class RivalCar : Car
     private Collider obstacle = null;
 
     private RivalDetection rivalDetection;
-    private RivalPathfinding rivalPathfinding;
+    private CarWaypointManager carWaypointManager = null;
 
     private void Awake()
     {
         rivalDetection = GetComponent<RivalDetection>();
-        rivalPathfinding = GetComponent<RivalPathfinding>();
+        carWaypointManager = GetComponent<CarWaypointManager>();    
 
-        rivalPathfinding.updateWaypoint.AddListener(SetWaypoint);
         rivalDetection.closestObstacle.AddListener(SetObstacle);
     }
 
@@ -99,7 +98,8 @@ public class RivalCar : Car
     private void SetSteer()
     {
         float steerValue = 0f;
-
+        currentWaypoint = carWaypointManager?.CurrentWaypoint;
+        
         // Steering towards waypoint
         if (currentWaypoint != null)
         {
@@ -111,17 +111,12 @@ public class RivalCar : Car
         if (obstacle != null)
         {
             Vector3 directionToObstacle = transform.InverseTransformPoint(obstacle.transform.position);
-            
+
             // Steer in the opposite direction of the obstacle
             steerValue -= (directionToObstacle.x / directionToObstacle.magnitude) * steeringAngle;
         }
 
         steer = Mathf.Clamp(steerValue, -steeringAngle, steeringAngle);
-    }
-
-    private void SetWaypoint(Waypoint waypoint)
-    {
-        currentWaypoint = waypoint;
     }
     
     private void SetObstacle(Collider obstacle)

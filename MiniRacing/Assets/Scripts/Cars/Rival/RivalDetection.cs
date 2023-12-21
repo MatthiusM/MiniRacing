@@ -59,6 +59,10 @@ public class RivalDetection : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        randomColor = (randomColor == null || Mathf.Approximately(randomColor.a, 0.0f)) ?
+        new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)) :
+        randomColor;
+
         Gizmos.color = randomColor;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
     }

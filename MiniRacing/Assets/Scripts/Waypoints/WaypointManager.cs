@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class WaypointManager : MonoBehaviour
 {
-    private List<Waypoint> waypoints = new();
+    private List<Waypoint> waypoints = new List<Waypoint>();
+    private Dictionary<GameObject, int> waypointMap = new Dictionary<GameObject, int>();
 
     public static WaypointManager Instance { get; private set; }
 
@@ -20,18 +21,19 @@ public class WaypointManager : MonoBehaviour
         }
     }
 
-    public void AddWaypoint(Vector3 position)
+    public void AddWaypoint(Vector3 position, GameObject gameObject)
     {
-        waypoints.Add(new Waypoint(position));
+        waypoints.Add(new Waypoint(position, gameObject));       
     }
 
     private void InitWaypoints()
     {
+        int childNum = 0;
         foreach (Transform child in transform)
         {
-            MeshRenderer renderer = child.GetComponent<MeshRenderer>();
-            renderer.enabled = false;
-            AddWaypoint(child.position);
+            AddWaypoint(child.position, child.gameObject);
+            waypointMap[child.gameObject] = childNum;
+            childNum++;
         }
     }
 
@@ -40,14 +42,25 @@ public class WaypointManager : MonoBehaviour
         return waypoints;
     }
 
-    private void OnDrawGizmos()
+    public int GetWaypointIndex(GameObject gameObject)
     {
-        //draw the waypoints
-        foreach (Waypoint waypoint in waypoints)
+        if (waypointMap.TryGetValue(gameObject, out int waypoint))
         {
-            Gizmos.color = Color.gray;
-            float size = 1f;
-            Gizmos.DrawCube(waypoint.Position, new Vector3(size, size, size));
+            return waypoint;
+        }
+        return -1;
+    }
+
+    public Waypoint GetWaypointByIndex(int index)
+    {
+        if (index >= 0 && index < waypoints.Count)
+        {
+            return waypoints[index];
+        }
+        else
+        {
+            Debug.LogError("Invalid waypoint index: " + index);
+            return null;
         }
     }
 }

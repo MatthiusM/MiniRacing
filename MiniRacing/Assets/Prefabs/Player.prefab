@@ -506,9 +506,10 @@ GameObject:
   - component: {fileID: 4434466910271441685}
   - component: {fileID: 2638869037130249771}
   - component: {fileID: 3042177990841571209}
+  - component: {fileID: 2650633338800100093}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -530,7 +531,7 @@ Transform:
   - {fileID: 5738834539092322592}
   - {fileID: 1925690399715614795}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3453329487492016231
 MeshFilter:
@@ -658,3 +659,15 @@ MonoBehaviour:
     axle: 1
   maxTorque: 10000
   stoppingSpeedThreshold: 1
+--- !u!114 &2650633338800100093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7514760025077282373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b08354a1668d0614a88d6851fff40614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
