@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerCar : Car
 {
-    [SerializeField]
-    private float stoppingSpeedThreshold = 1f;
-
     private DriveState previousDriveState;
+    private float verticalInput;
+    private float horizontalInput;
 
     new void Start()
     {
@@ -16,14 +14,8 @@ public class PlayerCar : Car
     }
 
     void Update()
-    {
-        GetInput();
+    {        
         ChangeDriveState();
-    }
-
-    private void FixedUpdate()
-    {
-        Steer();
         switch (currentDriveState)
         {
             case DriveState.Forward:
@@ -37,12 +29,22 @@ public class PlayerCar : Car
                 Stop();
                 break;
         }
+        Steer();
     }
 
-    private void GetInput()
+    private void FixedUpdate()
     {
-        torque = maxTorque * Input.GetAxis("Vertical");
-        steer = Input.GetAxis("Horizontal");
+        UpdateInputs();    
+    }
+    private void UpdateInputs()
+    {
+        verticalInput = Input.GetAxis("Vertical");
+        horizontalInput = Input.GetAxis("Horizontal");
+    }
+
+    bool IsInput()
+    {
+        return (math.abs(verticalInput) > 0.1f);
     }
 
     protected override void Drive()
@@ -50,16 +52,18 @@ public class PlayerCar : Car
         foreach (Wheel wheel in wheels)
         {
             wheel.WheelCollider.brakeTorque = 0f;
-            wheel.WheelCollider.motorTorque = torque * Time.deltaTime;
+            wheel.WheelCollider.motorTorque = !IsInput() ? 0 : maxTorque * verticalInput;
         }
     }
 
     protected override void Brake()
     {
+        if (!IsInput()) { return; }
+
         foreach (Wheel wheel in wheels)
         {
             wheel.WheelCollider.motorTorque = 0f;
-            wheel.WheelCollider.brakeTorque = Mathf.Pow(Mathf.Abs(torque), 3) * Time.deltaTime;
+            wheel.WheelCollider.brakeTorque = !IsInput() ? 0 : Mathf.Pow(Mathf.Abs(maxTorque * verticalInput), 3);
         }
     }
 
@@ -81,8 +85,8 @@ public class PlayerCar : Car
         {
             if (wheel.axle == Axle.Front)
             {
-                wheel.WheelCollider.steerAngle = steer * steeringAngle;
-                wheel.gameobject.transform.localRotation = Quaternion.Euler(0, steer * steeringAngle, 0);
+                wheel.WheelCollider.steerAngle = horizontalInput * steeringAngle;
+                wheel.gameobject.transform.localRotation = Quaternion.Euler(0, horizontalInput * steeringAngle, 0);
             }
         }
 
@@ -91,31 +95,26 @@ public class PlayerCar : Car
 
     private void ChangeDriveState()
     {
-        float input = Input.GetAxis("Vertical");
-        bool isNearlyStopped = rb.velocity.magnitude < stoppingSpeedThreshold;
+        bool isNearlyStopped = GetMPH() <= 0;
 
         previousDriveState = currentDriveState;
 
         switch (currentDriveState)
         {
             case DriveState.Stopped:
-                if (input > 0)
+                if (verticalInput > 0)
                 {
                     currentDriveState = DriveState.Forward;
                 }
-                else if (input < 0)
+                else if (verticalInput < 0)
                 {
                     currentDriveState = DriveState.Reversing;
                 }
                 break;
             case DriveState.Forward:
-                if (input <= 0 && isNearlyStopped)
+                if (verticalInput < 0)
                 {
-                    currentDriveState = DriveState.Stopped;
-                }
-                else if (input <= 0)
-                {
-                    currentDriveState = DriveState.Braking;
+                    currentDriveState = isNearlyStopped ? DriveState.Stopped : DriveState.Braking;
                 }
                 break;
             case DriveState.Braking:
@@ -123,23 +122,19 @@ public class PlayerCar : Car
                 {
                     currentDriveState = DriveState.Stopped;
                 }
-                else if (input > 0 && previousDriveState == DriveState.Forward)
+                else if (verticalInput > 0)
                 {
                     currentDriveState = DriveState.Forward;
                 }
-                else if (input < 0 && previousDriveState == DriveState.Reversing)
+                else if (verticalInput < 0)
                 {
                     currentDriveState = DriveState.Reversing;
                 }
                 break;
             case DriveState.Reversing:
-                if (input >= 0 && isNearlyStopped)
+                if (verticalInput > 0)
                 {
-                    currentDriveState = DriveState.Stopped;
-                }
-                else if (input >= 0)
-                {
-                    currentDriveState = DriveState.Braking;
+                    currentDriveState = isNearlyStopped ? DriveState.Stopped : DriveState.Braking;
                 }
                 break;
         }

@@ -8,7 +8,7 @@ public abstract class Car : MonoBehaviour
     protected Wheel[] wheels = new Wheel[4];
 
     [SerializeField]
-    protected float maxTorque = 10000f;
+    protected float maxTorque = 200f;
 
     protected readonly float steeringAngle = 30.0f;
 
@@ -47,13 +47,14 @@ public abstract class Car : MonoBehaviour
             rb.centerOfMass = centerOfMass;
         }
     }
-    protected float GetMPH()
+    
+    public int GetMPH()
     {
         float velocityMS = rb.velocity.magnitude;
 
         float mph = velocityMS * 2.23694f;
 
-        return mph;
+        return (int)mph;
     }
 
 }

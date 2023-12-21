@@ -4286,6 +4286,7 @@ GameObject:
   - component: {fileID: 224692773}
   - component: {fileID: 224692772}
   - component: {fileID: 224692771}
+  - component: {fileID: 224692774}
   m_Layer: 5
   m_Name: Speed
   m_TagString: Untagged
@@ -4430,6 +4431,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 224692769}
   m_CullTransparentMesh: 1
+--- !u!114 &224692774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224692769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82979c080d04a0f48a425b7411dac17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1745398030}
 --- !u!1001 &231430291
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14485,7 +14499,7 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 10
-  m_StandbyUpdate: 2
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 1745398036}
   m_Follow: {fileID: 1745398036}
   m_Lens:
@@ -39639,6 +39653,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3042177990841571209, guid: c8e1fc7eb3d7285459a24ec5725f0bae,
+        type: 3}
+      propertyPath: maxTorque
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 7514760025077282373, guid: c8e1fc7eb3d7285459a24ec5725f0bae,
         type: 3}
