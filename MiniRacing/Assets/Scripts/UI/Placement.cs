@@ -24,7 +24,8 @@ public class Placement : MonoBehaviour
             {
                 cars.Add(carObject.GetComponent<CarWaypointManager>());
             }
-        }        
+        }
+        placementText.text = $"{GetCarIndexByInstanceID(player.GetInstanceID()) + 1} / {cars.Count}";
     }
 
     private void Update()

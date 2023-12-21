@@ -5,7 +5,7 @@ using UnityEngine;
 public class RivalCar : Car
 {
     [SerializeField]
-    private float topSpeed = 10f;
+    private float topSpeed = 20f;
 
     private Waypoint currentWaypoint = null;
 
@@ -33,11 +33,9 @@ public class RivalCar : Car
     // Update is called once per frame
     void Update()
     {
-        SetSteer();
-    }
+        if (GameManager.Instance.CurrentState != GameState.Playing) { return; }
 
-    private void FixedUpdate()
-    {
+        SetSteer();
         Steer();
         Drive();
     }
@@ -50,12 +48,12 @@ public class RivalCar : Car
             return;
         }
 
-        if (rb.velocity.magnitude > topSpeed) { Brake(); return; }
+        if (GetMPH() > topSpeed) { Brake(); return; }
 
         foreach (Wheel wheel in wheels)
         {
             wheel.WheelCollider.brakeTorque = 0f;
-            wheel.WheelCollider.motorTorque = torque * Time.deltaTime;
+            wheel.WheelCollider.motorTorque = torque;
         }
     }
 

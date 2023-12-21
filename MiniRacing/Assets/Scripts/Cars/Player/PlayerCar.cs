@@ -14,7 +14,9 @@ public class PlayerCar : Car
     }
 
     void Update()
-    {        
+    {
+        if (GameManager.Instance.CurrentState != GameState.Playing) { return; }
+
         ChangeDriveState();
         switch (currentDriveState)
         {

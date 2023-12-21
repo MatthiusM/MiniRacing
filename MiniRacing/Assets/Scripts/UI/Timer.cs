@@ -13,6 +13,7 @@ public class Timer : MonoBehaviour
     void Start()
     {
         timerText = GetComponent<TextMeshProUGUI>();
+        timerText.text = string.Format("{0:00}:{1:00}", 0, 0);
         GameManager.Instance.AddListenerOnInitialise(StartTimer);
     }
 
@@ -40,5 +41,6 @@ public class Timer : MonoBehaviour
     void StartTimer()
     {
         startTime = Time.time;
+        Debug.Log($"startTime: {startTime}");
     }
 }

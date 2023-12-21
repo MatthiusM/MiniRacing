@@ -16,8 +16,7 @@ public class Speed : MonoBehaviour
     void Start()
     {
         speedText = GetComponent<TextMeshProUGUI>();
-        playerCar = player.GetComponent<Car>();
-        speedText.text = $"{playerCar.GetMPH()}MPH";        
+        playerCar = player.GetComponent<Car>();    
     }
 
     // Update is called once per frame

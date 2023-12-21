@@ -13,6 +13,8 @@ public enum GameState
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject countdownTimer;
     public static GameManager Instance { get; private set; }
 
     private GameState currentState = GameState.Countdown;
@@ -29,6 +31,9 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
+            CountDown countDown = countdownTimer.GetComponent<CountDown>();
+            countDown.AddListenerCountDownFinished(CountDownFinished);
         }
         else
         {
@@ -39,5 +44,11 @@ public class GameManager : MonoBehaviour
     public void AddListenerOnInitialise(UnityAction listener)
     {
         onInitialise.AddListener(listener);
+    }
+
+    void CountDownFinished()
+    {
+        onInitialise.Invoke();
+        currentState = GameState.Playing;
     }
 }
