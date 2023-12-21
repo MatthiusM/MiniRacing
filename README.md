@@ -58,6 +58,7 @@ Overview of what happened each week
 2. Driving doesn't speed up after no input
 3. Game manager
 4. countdown timer
+5. placement ui
 
 ## References
 

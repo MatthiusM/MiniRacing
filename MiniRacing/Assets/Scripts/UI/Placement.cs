@@ -4,57 +4,41 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using UnityEditor.Animations;
 
 public class Placement : MonoBehaviour
 {
     [SerializeField]
-    private GameObject player;
+    private GameObject placementUI;
 
-    private TextMeshProUGUI placementText;
-    private List<CarWaypointManager> cars = new();
+    [SerializeField]
+    private GameObject HUD;
+
+    private List<GameObject> placements = new();
+
+    private int currentPlacement = 0;
 
     private void Start()
     {
-        placementText = GetComponent<TextMeshProUGUI>();
-
-        GameObject[] carObjects = GameObject.FindGameObjectsWithTag("Car");
-        foreach (GameObject carObject in carObjects)
+        for (int i = 0; i < placementUI.transform.childCount; i++)
         {
-            if (carObject.transform.parent == null)
-            {
-                cars.Add(carObject.GetComponent<CarWaypointManager>());
-            }
+            placements.Add(placementUI.transform.GetChild(i).gameObject);
+            placementUI.transform.GetChild(i).gameObject.SetActive(false);
         }
-        placementText.text = $"{GetCarIndexByInstanceID(player.GetInstanceID()) + 1} / {cars.Count}";
+        placementUI.SetActive(false);        
     }
-
-    private void Update()
+    public void AddPlacement(CarData carData)
     {
-        if(GameManager.Instance.CurrentState != GameState.Playing) { return; }
+        if(carData.name == "Player") { placementUI.SetActive(true); HUD.SetActive(false); }
 
-        SortCarsByPlacement();
-        placementText.text = $"{GetCarIndexByInstanceID(player.GetInstanceID()) + 1} / {cars.Count}";
+        placements[currentPlacement].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = carData.name;
+        placements[currentPlacement].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = carData.time;
+        placements[currentPlacement].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = carData.placement;
+
+        placements[currentPlacement].SetActive(true);
+        
+        currentPlacement++;
     }
 
-    private int GetCarIndexByInstanceID(int instanceID)
-    {
-        for (int i = 0; i < cars.Count; i++)
-        {
-            if (cars[i].gameObject.GetInstanceID() == instanceID)
-            {
-                return i;
-            }
-        }
-
-        return -1; 
-    }
-
-
-    private void SortCarsByPlacement()
-    {
-        cars = cars.OrderByDescending(car => car.LapsCompleted)
-                    .ThenByDescending(car => car.CurrentWaypointIndex)
-                    .ThenBy(car => Vector3.Distance(car.transform.position, WaypointManager.Instance.GetWaypointByIndex(car.CurrentWaypointIndex).Position))
-                    .ToList();
-    }
 }

@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CarWaypointManager : MonoBehaviour
 {
+    [SerializeField]
+    private Placement placement;
+
     private static int waypointsCount;
     private int currentWaypointIndex = 0;
     private int lapsCompleted = 0; 
@@ -32,9 +35,11 @@ public class CarWaypointManager : MonoBehaviour
     public void IncrementWaypoint()
     {
         currentWaypointIndex = (currentWaypointIndex + 1) % waypointsCount;
-        if (currentWaypointIndex == 0)
+        if (currentWaypointIndex == 0 && !this.GetComponent<CarData>().finished)
         {
             lapsCompleted++;
+            this.GetComponent<CarData>().finished = true;
+            placement.AddPlacement(this.GetComponent<CarData>());
         }
         SetWaypoints();
     }

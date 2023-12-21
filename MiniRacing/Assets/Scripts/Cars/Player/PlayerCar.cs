@@ -116,7 +116,11 @@ public class PlayerCar : Car
             case DriveState.Forward:
                 if (verticalInput < 0)
                 {
-                    currentDriveState = isNearlyStopped ? DriveState.Stopped : DriveState.Braking;
+                    currentDriveState = DriveState.Braking;
+                }
+                else if (Mathf.Approximately(verticalInput, 0f) && isNearlyStopped)
+                {
+                    currentDriveState = DriveState.Stopped;
                 }
                 break;
             case DriveState.Braking:
@@ -136,7 +140,11 @@ public class PlayerCar : Car
             case DriveState.Reversing:
                 if (verticalInput > 0)
                 {
-                    currentDriveState = isNearlyStopped ? DriveState.Stopped : DriveState.Braking;
+                    currentDriveState = DriveState.Braking;
+                }
+                else if (Mathf.Approximately(verticalInput, 0f) && isNearlyStopped)
+                {
+                    currentDriveState = DriveState.Stopped;
                 }
                 break;
         }
