@@ -60,6 +60,7 @@ Overview of what happened each week
 4. countdown timer
 5. placement ui
 6. main menu
+7. play button functionality
 
 ## References
 
