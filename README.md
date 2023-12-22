@@ -59,7 +59,9 @@ Overview of what happened each week
 3. Game manager
 4. countdown timer
 5. placement ui
+6. main menu
 
 ## References
 
 - www.youtube.com. (n.d.). Tags - Unity Official Tutorials. [online] Available at: https://www.youtube.com/watch?v=EA54-vfLkUI.
+- Flaticon. (n.d.). Shopping Cart free icons designed by gungyoga04. [online] Available at: https://www.flaticon.com/free-icon/shopping-cart_2430468
