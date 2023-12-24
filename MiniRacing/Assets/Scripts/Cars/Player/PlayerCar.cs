@@ -53,8 +53,16 @@ public class PlayerCar : Car
     {
         foreach (Wheel wheel in wheels)
         {
-            wheel.WheelCollider.brakeTorque = 0f;
-            wheel.WheelCollider.motorTorque = !IsInput() ? 0 : maxTorque * verticalInput;
+            if (GetMPH() >= SavedData.instance.MaxSpeed)
+            {
+                wheel.WheelCollider.brakeTorque = 0f;
+                wheel.WheelCollider.motorTorque = 0f;
+            }
+            else {
+                wheel.WheelCollider.brakeTorque = 0f;
+                wheel.WheelCollider.motorTorque = !IsInput() ? 0 : maxTorque * verticalInput;
+            }
+            
         }
     }
 

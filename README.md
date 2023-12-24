@@ -61,8 +61,10 @@ Overview of what happened each week
 5. placement ui
 6. main menu
 7. play button functionality
+8. data saving
 
 ## References
 
 - www.youtube.com. (n.d.). Tags - Unity Official Tutorials. [online] Available at: https://www.youtube.com/watch?v=EA54-vfLkUI.
-- Flaticon. (n.d.). Shopping Cart free icons designed by gungyoga04. [online] Available at: https://www.flaticon.com/free-icon/shopping-cart_2430468
+- www.youtube.com. (n.d.). Simple Saving and Loading from a File (Unity Tutorial for Beginners). [online] Available at: https://www.youtube.com/watch?v=lJ9nArexsfA.
+- Flaticon. (n.d.). Dollar free icons designed by NajmunNahar. [online] Available at: https://www.flaticon.com/free-icon/dollar_9382189?term=coin&page=1&position=2&origin=search&related_id=9382189
