@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelTwoButton : BaseButton
+public class ReturnToMainButton : BaseButton
 {
     protected override void OnClick()
     {
-        SceneManager.LoadScene("SampleScene1");
+        Play();
+    }
+
+    private void Play()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

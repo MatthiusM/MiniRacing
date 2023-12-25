@@ -40,6 +40,11 @@ public class CarWaypointManager : MonoBehaviour
             lapsCompleted++;
             this.GetComponent<CarData>().finished = true;
             placement.AddPlacement(this.GetComponent<CarData>());
+            if(this.gameObject.name == "Player")
+            {
+                Debug.Log("add coins");
+                SavedData.instance.AddCoins(50);
+            }
         }
         SetWaypoints();
     }

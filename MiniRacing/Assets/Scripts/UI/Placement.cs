@@ -23,8 +23,13 @@ public class Placement : MonoBehaviour
     {
         for (int i = 0; i < placementUI.transform.childCount; i++)
         {
-            placements.Add(placementUI.transform.GetChild(i).gameObject);
-            placementUI.transform.GetChild(i).gameObject.SetActive(false);
+            GameObject child = placementUI.transform.GetChild(i).gameObject;
+
+            if (child.name.Contains("Panel"))
+            {
+                placements.Add(child);
+                child.SetActive(false);
+            }
         }
         placementUI.SetActive(false);        
     }
