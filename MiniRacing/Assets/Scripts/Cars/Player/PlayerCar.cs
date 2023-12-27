@@ -11,6 +11,7 @@ public class PlayerCar : Car
     {
         base.Start();
         previousDriveState = currentDriveState;
+
     }
 
     void Update()
@@ -31,12 +32,45 @@ public class PlayerCar : Car
                 Stop();
                 break;
         }
-        Steer();
+        Steer();        
+    }
+
+    void acceleromiterDirection()
+    {
+        Vector3 tilt = Quaternion.Euler(90, 0, 0) * Input.acceleration;
+
+        float xRotation = tilt.x;
+
+        float yRotation = tilt.y;
+
+        verticalInput = 0;
+        horizontalInput = 0;
+
+        if (xRotation > 0.1) // right
+        {
+            horizontalInput = 1;
+        }
+        else if (xRotation < -0.1) // left
+        {
+            horizontalInput = -1;
+        }
+
+        if (yRotation > 0.1) // forwards
+        {
+            Debug.Log("forwards");
+            verticalInput = 1;
+        }
+        else if (yRotation < -0.1) // backwards
+        {
+            Debug.Log("backwards");
+            verticalInput = -1;
+        }
     }
 
     private void FixedUpdate()
     {
-        UpdateInputs();    
+        //UpdateInputs();
+        acceleromiterDirection();
     }
     private void UpdateInputs()
     {
@@ -157,6 +191,6 @@ public class PlayerCar : Car
                 break;
         }
 
-        Debug.Log($"Current Drive State: {currentDriveState}");
+        //Debug.Log($"Current Drive State: {currentDriveState}");
     }
 }

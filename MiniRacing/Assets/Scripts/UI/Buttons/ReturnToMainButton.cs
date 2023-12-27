@@ -12,6 +12,6 @@ public class ReturnToMainButton : BaseButton
 
     private void Play()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("Main Menu");
     }
 }
