@@ -507,6 +507,7 @@ GameObject:
   - component: {fileID: 2638869037130249771}
   - component: {fileID: 3042177990841571209}
   - component: {fileID: 2650633338800100093}
+  - component: {fileID: 3478579980099393635}
   m_Layer: 7
   m_Name: Player
   m_TagString: Car
@@ -657,8 +658,7 @@ MonoBehaviour:
   - gameobject: {fileID: 6432101581115097367}
     WheelCollider: {fileID: 4436556896112359294}
     axle: 1
-  maxTorque: 10000
-  stoppingSpeedThreshold: 1
+  maxTorque: 200
 --- !u!114 &2650633338800100093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -671,3 +671,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b08354a1668d0614a88d6851fff40614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placement: {fileID: 0}
+--- !u!114 &3478579980099393635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7514760025077282373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 563545cd9b61f834faa51c2b407c6e6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finished: 0
+  placement: 
+  time: 
