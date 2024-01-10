@@ -72,7 +72,8 @@ Overview of what happened each week
 - www.youtube.com. (n.d.). Simple Saving and Loading from a File (Unity Tutorial for Beginners). [online] Available at: https://www.youtube.com/watch?v=lJ9nArexsfA.
 - Flaticon. (n.d.). Dollar free icons designed by NajmunNahar. [online] Available at: https://www.flaticon.com/free-icon/dollar_9382189?term=coin&page=1&position=2&origin=search&related_id=9382189
 - icons8.com. (n.d.). Car Icons - Free Download, PNG and SVG. [online] Available at: https://icons8.com/icons/set/car.
-- www.youtube.com. (n.d.). Publish your UNITY game on Google Play Store - 2023 guide. [online] Available at: https://www.youtube.com/watch?v=UXl_C3ZnRLc [Accessed 27 Dec. 2023].
+- www.youtube.com. (n.d.). Publish your UNITY game on Google Play Store - 2023 guide. [online] Available at: https://www.youtube.com/watch?v=UXl_C3ZnRLc
+- itch.io download: https://matthiusm.itch.io/miniracing
 
 ‌
 
